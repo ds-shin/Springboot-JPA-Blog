@@ -1,2 +1,2 @@
 # Springboot-JPA-Blog
-  practice & study & making
+  practice & study & blog making
