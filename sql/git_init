@@ -1,0 +1,5 @@
+git init
+git add .
+git commit -m "환경세팅완료 v1"
+git remote add origin 주소
+git push origin master
