@@ -25,3 +25,7 @@ CREATE DATABASE blog CHARACTER SET utf8 DEFAULT COLLATE utf8_general_ci;
 use blog;
 
 show variables where Variable_name like '%dir';
+
+-- 데이터베이스 삭제 및 생성
+drop database blog;
+create database blog character set utf8 default collate utf8_general_ci;
