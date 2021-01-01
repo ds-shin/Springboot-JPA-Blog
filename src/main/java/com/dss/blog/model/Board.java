@@ -43,7 +43,7 @@ public class Board {
   // 만약 댓글을 펼치기 버튼을 이용할 경우에는 기본전략으로!!!
   // mappedBy 연관관계의 주인이 아니다.(난 FK가 아니예요) DB에 칼럼을 만들지마세요!!
   @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)  // Reply의  Board 객체를 설정해준다.
-  //@JoinColumn(name = "replyId") // = FK이다. join 이 필요없다.:하나인경우메나 해당
+  //@JoinColumn(name = "replyId") // = FK이다. join 이 필요없다. 하나인 경우에만 설정하자.
   private List<Reply> reply;
 
   @CreationTimestamp

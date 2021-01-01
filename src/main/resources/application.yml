@@ -22,7 +22,7 @@ spring:
   jpa:
       open-in-view: true
       hibernate:
-        ddl-auto: create  # => 한번 생성한후엔 update로 설정할것. 실행시마다 drop ~ create 수행
+        ddl-auto: update  # => 한번 생성한후엔 update로 설정할것. 실행시마다 drop ~ create 수행
         naming:
           physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
           # org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl : 변수명(username)을 그대로 필드로 넣어줌
