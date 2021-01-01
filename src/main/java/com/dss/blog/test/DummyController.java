@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 //html파일이 아니라 data를 리턴해주는 controller = @RestController
@@ -19,6 +20,59 @@ public class DummyController {
   @Autowired // 의존성주입(DI)
   private UserRepository userRepository;
 
+  // save함수는 id를 전달하지 않으면 insert를 해주고
+  // save함수는 id를 전달하면 해당 id 에 대한 데이터가 있으면 update를 해주고
+  // save함수는 id를 전달하면 해당 id 에 대한 데이터가 없으면 insert를 한다.
+  // 업데이트 처리 : email,password
+  @PutMapping("/dummy/user1/{id}")
+  //public User updateUser(@PathVariable int id, User requestUser){ // form 태그 방식
+  public User updateUser(@PathVariable int id, @RequestBody User requestUser){ // json 방식(json데이터를 Java Object반환):MessageConverter
+    System.out.println("updateUser USER : " + requestUser); // update USER : User(id=0, username=null, password=4567, email=dss@gmail.com, role=null, createDate=null)
+
+    User user = userRepository.findById(id).orElseThrow(()->{
+      return new IllegalArgumentException("수정에 실패하였습니다.");
+    });
+
+    /*
+    //user 자체를 save할때 입력받지 않은 컬럼도 업데이트 되기 때문에 주의!! 체크해줘야한다.
+    requestUser.setId(id);
+    requestUser.setUsername("ssar");
+    userRepository.save(requestUser);
+    */
+
+    user.setPassword(requestUser.getPassword());
+    user.setEmail(requestUser.getEmail());
+    userRepository.save(user);
+    return null;
+  }
+
+  @Transactional // 함수 종료시에 자동 commit이 된다.
+  @PutMapping("/dummy/user/{id}")
+  //public User updateUser(@PathVariable int id, User requestUser){ // form 태그 방식
+  public User updateUser2(@PathVariable int id, @RequestBody User requestUser){ // json 방식(json데이터를 Java Object반환):MessageConverter
+    System.out.println("updateUser2 USER : " + requestUser); // update USER : User(id=0, username=null, password=4567, email=dss@gmail.com, role=null, createDate=null)
+
+    // 데이터를 조회 해 오면 영속화가 된다.
+    User user = userRepository.findById(id).orElseThrow(()->{
+      return new IllegalArgumentException("수정에 실패하였습니다.");
+    });
+
+    /*
+    //user 자체를 save할때 입력받지 않은 컬럼도 업데이트 되기 때문에 주의!! 체크해줘야한다.
+    requestUser.setId(id);
+    requestUser.setUsername("ssar");
+    userRepository.save(requestUser);
+    */
+
+    user.setPassword(requestUser.getPassword());
+    user.setEmail(requestUser.getEmail());
+
+    //Transactional 를 설정하면 자동 업데이트된다 => 더티 체킹
+    //userRepository.save(user);
+
+    //더티 체킹?
+    return null;
+  }
 
   // 여러건 조회
   // http://localhost:8000/blog/dummy/user
