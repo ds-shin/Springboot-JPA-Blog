@@ -19,4 +19,9 @@ public class GlobalExceptionHandler {
   public String handleArugumentException(EmptyResultDataAccessException e){
     return "<h1>" + e.getMessage() + "</h1>";
   }
+
+  @ExceptionHandler(value= Exception.class)
+  public String handleArugumentException(Exception e){
+    return "<h1>" + e.getMessage() + "</h1>";
+  }
 }

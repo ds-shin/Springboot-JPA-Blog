@@ -21,7 +21,7 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY) // 프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.(application.yml=>use-new-id-generator-mappings: false)
   private int id; // 시퀀스, auto_increment ( mysql,oracle db에 따라 적용된다.)
 
-  @Column(nullable = false, length = 30)
+  @Column(nullable = false, length = 30, unique = true) // 중복허용방지
   private String username; // 아이디
 
   @Column(nullable = false, length = 100) // 12345 => 추후 해쉬이용(비밀번호 암호화)
