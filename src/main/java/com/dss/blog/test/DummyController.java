@@ -4,6 +4,7 @@ import com.dss.blog.model.RoleType;
 import com.dss.blog.model.User;
 import com.dss.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,6 +20,22 @@ public class DummyController {
 
   @Autowired // 의존성주입(DI)
   private UserRepository userRepository;
+
+
+  // http://localhost:8000/blog/dummy/user/4
+  @DeleteMapping("/dummy/user/{id}")
+  public String delete(@PathVariable int id){
+    try {
+      userRepository.deleteById(id);
+    }catch(EmptyResultDataAccessException ex){
+      return "삭제에 실패하였습니다. 해당하는 id가 존재하지 않습니다. : "+ ex.toString();
+    }
+    return "삭제되었습니다. id : " +id;
+
+
+
+
+  }
 
   // save함수는 id를 전달하지 않으면 insert를 해주고
   // save함수는 id를 전달하면 해당 id 에 대한 데이터가 있으면 update를 해주고
@@ -43,7 +60,7 @@ public class DummyController {
     user.setPassword(requestUser.getPassword());
     user.setEmail(requestUser.getEmail());
     userRepository.save(user);
-    return null;
+    return user;
   }
 
   @Transactional // 함수 종료시에 자동 commit이 된다.
@@ -71,7 +88,7 @@ public class DummyController {
     //userRepository.save(user);
 
     //더티 체킹?
-    return null;
+    return user;
   }
 
   // 여러건 조회
