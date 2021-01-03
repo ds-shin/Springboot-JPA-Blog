@@ -17,13 +17,13 @@ public class UserApiController {
   private UserService userService;
 
   @PostMapping("/api/user")
-  public ResponseDto<Integer> save(@RequestBody User user){
-    System.out.println("UserApiController save 호출됨 :" + user);
+  public ResponseDto<Integer> insert(@RequestBody User user){
+    System.out.println("UserApiController insert 호출됨 :" + user);
 
     user.setRole(RoleType.USER);
-    int result = userService.insert(user);
+    userService.insert(user);
 
     // 자바오브젝트를 JSON으로 변환해서 리턴(Jackson 처리)
-    return new ResponseDto<Integer>(HttpStatus.OK.value(), result); // 200 , 1
+    return new ResponseDto<Integer>(HttpStatus.OK.value(),1 ); // 200 , 1
   }
 }

@@ -1,6 +1,8 @@
 package com.dss.blog.handler;
 
+import com.dss.blog.dto.ResponseDto;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +12,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GlobalExceptionHandler {
 
+  @ExceptionHandler(value=Exception.class)
+  public ResponseDto<String> handleArugumentException(Exception e){
+
+    System.out.println("GlobalExceptionHandler call : " + e.getMessage());
+
+    return new ResponseDto<String>(HttpStatus.INTERNAL_SERVER_ERROR.value(),e.getMessage());
+  }
+
+/*
   @ExceptionHandler(value=IllegalArgumentException.class)
   public String handleArugumentException(IllegalArgumentException e){
     return "<h1>" + e.getMessage() + "</h1>";
@@ -24,4 +35,5 @@ public class GlobalExceptionHandler {
   public String handleArugumentException(Exception e){
     return "<h1>" + e.getMessage() + "</h1>";
   }
+  */
 }

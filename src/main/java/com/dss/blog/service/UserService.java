@@ -2,6 +2,7 @@ package com.dss.blog.service;
 
 import com.dss.blog.model.User;
 import com.dss.blog.repository.UserRepository;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,13 +16,24 @@ public class UserService {
 
   //회원가입
   @Transactional
-  public Integer insert(User user){
+  public void insert(User user)  {
+    // exception 발생시 무조건 GlobalExceptionHandler 을 호출한다.
+    //userRepository.save(user);
+    /*
+    "status": 500,
+    "data": "could not execute statement; SQL [n/a]; constraint [UK_jreodf78a7pl5qidfh43axdfb]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement"
+    */
+
+    // exception 발생시 무조건 GlobalExceptionHandler 을 호출한다.
+    // try 구문을 감싸주면 리턴되는 메세지 차이가 있다.
     try{
       userRepository.save(user);
-      return 1;
-    }catch (Exception e){
-      System.out.println("UserService save() :" + e.getMessage());
+    }catch(Exception exception){
+      System.out.println("exception error : "+ exception.getMessage());
     }
-    return -1;
+    /*
+    "status": 500,
+    "data": "Transaction silently rolled back because it has been marked as rollback-only"
+     */
   }
 }
