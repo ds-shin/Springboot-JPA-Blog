@@ -34,18 +34,20 @@ public class UserApiController {
     return new ResponseDto<Integer>(HttpStatus.OK.value(),1 ); // 200 , 1
   }
 
-  @PostMapping("/api/user/login")
-  public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
-    System.out.println("UserApiController login 호출됨 :" + user);
-
-    User principal = userService.login(user);  // principal(접근주체)
-
-
-    //HttpSession session : @Autowired 로 주입해서 사용해도 된다.
-    if(null!=principal){
-      session.setAttribute("principal",principal);
-    }
-
-    return new ResponseDto<Integer>(HttpStatus.OK.value(),1 );
-  }
+  // 스프링 시큐리티(spring-boot-starter-security)를 설정하면
+  // 로그인시 스프링 시큐리티가 가로채서 로그인 화면으로 무조건 보낸다
+//  @PostMapping("/api/user/login")
+//  public ResponseDto<Integer> login(@RequestBody User user, HttpSession session){
+//    System.out.println("UserApiController login 호출됨 :" + user);
+//
+//    User principal = userService.login(user);  // principal(접근주체)
+//
+//
+//    //HttpSession session : @Autowired 로 주입해서 사용해도 된다.
+//    if(null!=principal){
+//      session.setAttribute("principal",principal);
+//    }
+//
+//    return new ResponseDto<Integer>(HttpStatus.OK.value(),1 );
+//  }
 }
