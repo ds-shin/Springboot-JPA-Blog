@@ -5,8 +5,7 @@ import com.dss.blog.repository.UserRepository;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class UserService {
@@ -35,5 +34,11 @@ public class UserService {
     "status": 500,
     "data": "Transaction silently rolled back because it has been marked as rollback-only"
      */
+  }
+
+  @Transactional(readOnly = true) // Select할 때 트랜잭션 시작, 서비스 종료시에 트랜잭션 종료(정합성)
+  public User login(User user){
+    // 호출되는 지점에서 select 쿼리가 여러번 사용되도라도 정합성을 보장해준다.(readOnly=true 인경우)
+    return userRepository.findByUsernameAndPassword(user.getUsername(),user.getPassword());
   }
 }
