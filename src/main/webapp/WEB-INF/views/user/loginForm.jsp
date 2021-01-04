@@ -3,7 +3,7 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-  <form action="/blog/api/user/login">
+  <form action=""><!-- form 태그를 이용하지 않고 ajax를 이용해서 처리-->
     <div class="form-group">
       <label for="username">username</label>
       <input type="text" class="form-control" placeholder="Enter username" id="username">
@@ -22,5 +22,5 @@
 
 </div>
 
-<script src="/blog/js/user.js"></script>
+<script src="/js/user.js"></script>
 <%@ include file="../layout/footer.jsp"%>

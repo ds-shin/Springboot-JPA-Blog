@@ -35,7 +35,7 @@ let index = {
     // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert요청
     $.ajax({
       type : "POST",
-      url : "/blog/api/user",
+      url : "/api/user",
       data: JSON.stringify(data), // javasciprt 오브젝트를 json 문자열로 변환하여 전달한다.
       contentType : "application/json; charset=utf-8", // body데이터가 어떤타입인지(mime)
       dataType:"json" // 요청을 서버로해서 응답이왔을때 기본적으로 모든것이 문자열(생긴게 json 이라면)=>javascript object 로 변경해줌
@@ -43,7 +43,7 @@ let index = {
 
       if(resp.status === 200) {
         alert("회원가입이 완료되었습니다.");
-        location.href="/blog";
+        location.href="/";
       }
       else{
         console.log(resp);
@@ -66,7 +66,7 @@ let index = {
     // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert요청
     $.ajax({
       type : "POST",
-      url : "/blog/api/user/login",
+      url : "/api/user/login",
       data: JSON.stringify(data), // javasciprt 오브젝트를 json 문자열로 변환하여 전달한다.
       contentType : "application/json; charset=utf-8", // body데이터가 어떤타입인지(mime)
       dataType:"json" // 요청을 서버로해서 응답이왔을때 기본적으로 모든것이 문자열(생긴게 json 이라면)=>javascript object 로 변경해줌
@@ -74,7 +74,7 @@ let index = {
 
       if(resp.status === 200) {
         alert("로그인이 완료되었습니다.");
-        location.href="/blog";
+        location.href="/";
         //console.log(resp);
       }
       else{
