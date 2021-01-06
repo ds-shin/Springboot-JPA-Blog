@@ -1,0 +1,9 @@
+
+# 시큐리티
+-. csrf 토큰:
+    => ex> http://xxx.com/admin/point?id=abc&point=50000
+    시큐리티 : /admin/** <-- 권한이 ADMIN만
+    POST 방식으로 처리하여 애초에 차단!!
+    Referrer 검증 : 공격차단
+-. xss : 자바스크립트 공격
+    => naver lucy 라이브러리 이용

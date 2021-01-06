@@ -9,9 +9,11 @@ let index = {
       this.save(); // 1번과 2번은 동일한 this 값을 갖는다.
     });
 
+    /* security 적용으로 사용하지 않음.
     $("#btn-login").on("click", () => {
       this.login();
-    })
+    });
+    */
 
     /*
     // function를 사용해야한다면 this 를 변수에 담아서 사용한다.
@@ -35,7 +37,7 @@ let index = {
     // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert요청
     $.ajax({
       type : "POST",
-      url : "/api/user",
+      url : "/auth/joinProc",
       data: JSON.stringify(data), // javasciprt 오브젝트를 json 문자열로 변환하여 전달한다.
       contentType : "application/json; charset=utf-8", // body데이터가 어떤타입인지(mime)
       dataType:"json" // 요청을 서버로해서 응답이왔을때 기본적으로 모든것이 문자열(생긴게 json 이라면)=>javascript object 로 변경해줌
@@ -54,6 +56,7 @@ let index = {
     });
   },
 
+  /* security 적용으로 사용하지 않음.
   login: function(){
     //alert("user의 save함수 호출됨");
     let data = {
@@ -84,7 +87,7 @@ let index = {
     }).fail(function (error){
       alert(JSON.stringify(error));
     });
-  }
+  }*/
 }
 
 //초기화 설정
