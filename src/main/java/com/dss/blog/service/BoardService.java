@@ -4,6 +4,8 @@ import com.dss.blog.model.Board;
 import com.dss.blog.model.User;
 import com.dss.blog.repository.BoardRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,7 +38,7 @@ public class BoardService {
      */
   }
 
-  public List<Board> list(){
-    return boardRepository.findAll(); // 글목록을 리턴
+  public Page<Board> list(Pageable pageable){
+    return boardRepository.findAll(pageable); // 글목록을 리턴
   }
 }

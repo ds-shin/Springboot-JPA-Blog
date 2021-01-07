@@ -1,9 +1,10 @@
 package com.dss.blog.controller;
 
-import com.dss.blog.config.auth.PrincipalDetail;
 import com.dss.blog.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,10 +25,11 @@ public class BoardController {
   private BoardService boardService;
 
   @GetMapping({"","/"})
-  public String index(Model model){  // 데이터를 가져가서 보여주자!
+  public String index(Model model,
+                      @PageableDefault(size=3, sort = "id", direction = Sort.Direction.DESC)Pageable pageable){  // 데이터를 가져가서 보여주자!
     System.out.println("index() call =====");
 
-    model.addAttribute("boards",boardService.list());
+    model.addAttribute("boards",boardService.list(pageable));
 
     return "index";  // viewResolver 작동!!
   }
