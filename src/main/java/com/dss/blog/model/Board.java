@@ -28,7 +28,7 @@ public class Board {
   @Lob // 대용량 데이터
   private String content ; // (tool)섬머노트 라이브러리 <html>태그가 썩여서 디자인이 됨
 
-  @ColumnDefault("0")
+  //@ColumnDefault("0")  : 직접 입력받도록 주석처리
   private int count; //조회수
 
   //FetchType.EAGER : 조인해서 즉시 가져올게!! ,명시적으로 설정해줘야한다!
