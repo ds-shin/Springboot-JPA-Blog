@@ -1,9 +1,11 @@
 package com.dss.blog.controller;
 
 import com.dss.blog.config.auth.PrincipalDetail;
+import com.dss.blog.service.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -18,10 +20,16 @@ public class BoardController {
     return "index";
   }*/
 
+  @Autowired
+  private BoardService boardService;
+
   @GetMapping({"","/"})
-  public String index(){
+  public String index(Model model){  // 데이터를 가져가서 보여주자!
     System.out.println("index() call =====");
-    return "index";
+
+    model.addAttribute("boards",boardService.list());
+
+    return "index";  // viewResolver 작동!!
   }
   
   //User 권한이 필요 -- 글쓰기 창으로 이동

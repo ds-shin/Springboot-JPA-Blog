@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class BoardService {
 
@@ -32,5 +34,9 @@ public class BoardService {
     "status": 500,
     "data": "Transaction silently rolled back because it has been marked as rollback-only"
      */
+  }
+
+  public List<Board> list(){
+    return boardRepository.findAll(); // 글목록을 리턴
   }
 }
