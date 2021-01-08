@@ -9,6 +9,10 @@ let index = {
       this.save(); // 1번과 2번은 동일한 this 값을 갖는다.
     });
 
+    $("#btn-delete").on("click", () => { // 바인딩처리!!!
+      this.deleteById();
+    });
+
     /* security 적용으로 사용하지 않음.
     $("#btn-login").on("click", () => {
       this.login();
@@ -22,6 +26,30 @@ let index = {
       _this.save();
     });
     */
+  },
+
+
+  deleteById: function(){
+    var id = $("#id").text();
+    console.log("board id=",id);
+
+    $.ajax({
+      type : "DELETE",
+      url : "/api/board/"+id,
+      dataType:"json"
+    }).done(function(resp){ // javascript object로 넘겨줌
+
+      if(resp.status === 200) {
+        alert("삭제가 완료되었습니다.");
+        location.href="/";
+      }
+      else{
+        console.log(resp);
+        alert("오류가 발생하였습니다.\n"+resp.data);
+      }
+    }).fail(function (error){
+      alert(JSON.stringify(error));
+    });
   },
 
   save: function(){
