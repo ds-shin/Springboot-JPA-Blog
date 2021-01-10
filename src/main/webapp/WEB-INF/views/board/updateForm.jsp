@@ -3,26 +3,20 @@
 <%@ include file="../layout/header.jsp"%>
 
 <div class="container">
-  <button class="btn btn-secondary" onclick="history.back();">돌아가기</button>
-
-  <c:if test="${board.user.id== principal.user.id}">
-    <a href="/board/${board.id}/updateForm" class="btn btn-warning">수정</a>
-    <button id="btn-delete" class="btn btn-danger">삭제</button>
-  </c:if>
-  <br /><br />
-
-    <div>
-      글번호 : <span id="id"><i>${board.id} </i></span>
-      작성자 : <span id="username"><i>${board.user.username}</i> </span>
-    </div>
+  <form><!-- form 태그를 이용하지 않고 ajax를 이용해서 처리-->
+    <input type="hidden" id="id" value="${board.id}" />
     <div class="form-group">
-     <h3>${board.title}</h3>
+      <label for="title">title</label>
+      <input type="text" name="title" value="${board.title}" class="form-control" placeholder="Enter title" id="title">
     </div>
-    <hr />
+
     <div class="form-group">
-      <div>${board.content}</div>
+      <label for="content">Comment:</label>
+      <textarea class="form-control summernote" rows="5" id="content">${board.content}</textarea>
     </div>
-    <hr />
+  </form>
+
+  <button id="btn-update" class="btn btn-primary">수정</button>
 
 </div>
 

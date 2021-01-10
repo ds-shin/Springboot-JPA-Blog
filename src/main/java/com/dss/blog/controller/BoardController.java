@@ -36,15 +36,27 @@ public class BoardController {
     return "index";  // viewResolver 작동!!
   }
 
+
   @GetMapping("/board/{id}")
   public String findById(@PathVariable int id,Model model){
+    System.out.println("findById() call =====");
     model.addAttribute("board",boardService.view(id));
     return "board/detail";
   }
-  
+
+  @GetMapping("/board/{id}/updateForm")
+  public String updateForm(@PathVariable int id, Model model){
+    System.out.println("updateForm() call =====");
+
+    model.addAttribute("board",boardService.view(id));
+    return "board/updateForm";
+  }
+
   //User 권한이 필요 -- 글쓰기 창으로 이동
   @GetMapping("/board/saveForm")
   public String saveForm(){
+    System.out.println("saveForm() call =====");
+
     return "board/saveForm";
   }
 }
