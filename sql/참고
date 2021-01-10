@@ -7,3 +7,77 @@
     Referrer 검증 : 공격차단
 -. xss : 자바스크립트 공격
     => naver lucy 라이브러리 이용
+
+-.  스프링시큐리티 인증 세션에 접근하는 3가지 방법과 직접 시큐리티 세션을 만드는 방법 2가지
+    https://blog.naver.com/getinthere/221804905967
+
+1. @AuthenticationPricipal
+
+*  이때 User객체는 UserDetails를 상속받은 객체이다.
+
+// 인증, 동일인 체크
+@GetMapping("/user/profile/{id}")
+public  String profile(@PathVariable int id,
+		@AuthenticationPrincipal User principal) {
+
+	System.out.println("UserController : profile :  "+principal.getProfile());
+	if(principal.getId() == id) {
+		return "/user/profile";
+	}else {
+		// 잘못된 접근입니다. 권한이 없습니다.
+		return "/user/login";
+	}
+
+}
+2. 직접 접근
+
+* 스프링 시큐리티로 로그인을 진행하면 Authentication 객체를 만들어서 Security-Context에 담고  해당 Security-Context를 session 객체의 key값 SPRING_SECURITY_CONTEXT 에 담는다.
+
+
+
+스프링 시큐리티 로그인 노가다 구현
+
+Authentication authentication =
+		    		new UsernamePasswordAuthenticationToken(userDetail, null, userDetail.getAuthorities());
+SecurityContext securityContext = SecurityContextHolder.getContext();
+securityContext.setAuthentication(authentication);
+session.setAttribute("SPRING_SECURITY_CONTEXT", securityContext);
+스프링 시큐리티 로그인 AuthenticationManger 로 구현
+
+SpringSecurity.java
+
+@Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+구현하려는 부분에 코드
+
+Authentication authentication = authenticationManager.authenticate(
+				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+
+SecurityContextHolder.getContext().setAuthentication(authentication);
+
+아래 그림을 보면 이해가 갈것이다.
+<그림참고> <a href="https://github.com/ds-shin/Springboot-JPA-Blog/tree/master/capimg/Spring_Security_Autheciation_Architecture.png">Spring_Security_Autheciation_Architecture.png</a>
+
+
+당연히 꺼낼때도 동일한 순서로 꺼내서 아래와 같이 사용하면 된다.
+
+User prin = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+3. UserDetailsService 구현체에서 getPrincipal() 함수 만들기
+
+@Service
+public class MyUserDetailService implements UserDetailsService{
+
+	private User user;
+
+	public User getPrincipal() {
+		return user;
+	}
+
+... 생략
+}
+사용할 때는 DI해서 쓰면 된다.
+<그림참고> <a href="https://github.com/ds-shin/Springboot-JPA-Blog/tree/master/capimg/MyUserDetailService.png">MyUserDetailService.png</a>
+

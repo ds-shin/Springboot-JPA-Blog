@@ -1,6 +1,8 @@
 package com.dss.blog.controller;
 
 
+import com.dss.blog.config.auth.PrincipalDetail;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -24,8 +26,15 @@ public class UserController {
     return "user/loginForm";
   }
 
+/*  //일반적인 사용자 업데이트 처리
   @GetMapping("/user/updateForm")
   public String updateForm(){
+    return "user/updateForm";
+  }*/
+
+  // SecurityContextHolder > SecurityContext > Authentication 객체의 User 값을 가져온다.
+  @GetMapping("/user/updateForm")
+  public String updateForm(@AuthenticationPrincipal PrincipalDetail principal){
     return "user/updateForm";
   }
 }

@@ -4,6 +4,7 @@ import com.dss.blog.config.auth.PrincipalDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   private PrincipalDetailService principalDetailService;
+
+  @Bean
+  @Override
+  public AuthenticationManager authenticationManagerBean() throws Exception {
+    return super.authenticationManagerBean();
+  }
 
   //hash code로 반환
   @Bean // 호출할때마다 암호화해서 리턴해준다.
