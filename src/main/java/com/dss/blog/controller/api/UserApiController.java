@@ -7,9 +7,7 @@ import com.dss.blog.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -49,4 +47,12 @@ public class UserApiController {
 
     return new ResponseDto<Integer>(HttpStatus.OK.value(),1 );
   }*/
+
+  @PutMapping("/user")
+  public ResponseDto<Integer> update(@RequestBody User user) {
+    System.out.println("user update : "+ user);
+    userService.update(user);
+    return new ResponseDto<Integer>(HttpStatus.OK.value(),1 ); // 200 , 1
+  }
+
 }
