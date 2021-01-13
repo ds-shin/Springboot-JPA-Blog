@@ -68,6 +68,9 @@ public class UserApiController {
 //    securityContext.setAuthentication(authentication);
 //    session.setAttribute("SPRING_SECURITY_CONTEXT",securityContext);
 
+
+    // 만약 kakao 정보 변경 정보가 있으면 인증 예외처리 로직 추가해야함!!
+
     // 계층 : SecurityContextHolder > SecurityContext > Authentication
     // 디비 변경 완료후에 변경된 정보로 세션처리!!!!!
     // 변경된 세션 등록

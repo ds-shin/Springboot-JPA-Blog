@@ -1,0 +1,63 @@
+
+# docs : https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api
+1. 웹서버주소 : http://localhost:8000
+2. 클라이언트키 : REST API 키
+3. 카카오 로그인 요청 콜백주소 : ~/auth/kakao/callback
+4. 카카오 로그아웃 요청 콜백주소 : ~/auth/kakao/logout
+5. 카카오 동의 구성
+  - User object : id , username, password, email
+  - 카카오로부터 받을 정보 : 프로필정보(필수), 이메일(선택)
+6. 로그인 요청 주소(get)
+  - https://kauth.kakao.com/oauth/authorize?client_id=bf591b4518919bd509251f6d16ee63a4&redirect_uri=http://localhost:8000/auth/kakao/callback&response_type=code
+7. 응답받은 코드
+  - ~/auth/kakao/callback?code=~
+8. 토큰 발급 요청 주소(post) - http body에 데이터를 전달(4가지 데이터를 담는다)
+  - 요청주소 : https://kauth.kakao.com/oauth/token
+  - 헤더 값 : application/x-www-form-urlencoded;charset=utf-8 ( key=value )
+  - 바디 값 :
+    - grant_type=authorization_code
+    - client_id=~
+    - redirect_url=~
+    - code=~
+9. 토큰을 통한 사용자 정보 조회(get,post 모두 지원) : https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#req-user-info
+  - 요청주소 : https://kapi.kakao.com/v2/user/me
+  - 헤더 값 :
+    - Authorization: Bearer {ACCESS_TOKEN}
+    - Content-type: application/x-www-form-urlencoded;charset=utf-8
+
+/* kakako 사용자정보 요청 결과
+{
+  "id": xxxxx,
+  "connected_at": "2021-01-11T22:04:36Z",
+  "properties": {
+    "nickname": "xxxx",
+    "profile_image": "http://k.kakaocdn.net/dn/bPd1yr/btqS9ZHKb1r/xxxxx/img_640x640.jpg",
+    "thumbnail_image": "http://k.kakaocdn.net/dn/bPd1yr/btqS9ZHKb1r/xxxxx/img_110x110.jpg"
+  },
+  "kakao_account": {
+    "profile_needs_agreement": false,
+    "profile": {
+      "nickname": "xxxxx",
+      "thumbnail_image_url": "http://k.kakaocdn.net/dn/bPd1yr/btqS9ZHKb1r/xxxxx/img_110x110.jpg",
+      "profile_image_url": "http://k.kakaocdn.net/dn/bPd1yr/btqS9ZHKb1r/xxxxx/img_640x640.jpg"
+    },
+    "has_email": true,
+    "email_needs_agreement": false,
+    "is_email_valid": true,
+    "is_email_verified": true,
+    "email": "xxxxx@nate.com"
+  }
+}
+*/
+
+- 기타 : https://www.youtube.com/watch?v=WACDTFroYNI&list=PL93mKxaRDidECgjOBjPgI3Dyo8ka6Ilqm&index=68
+  jwt : statefull / stateless
+  질의? JWT는 stateless를 가능하게 하므로 여기서말하는 client server에서 세션에 저장하지않고  토큰정보를 가지고 로그인 처리를 진행한다고 알고있는데요
+       기존의 statefull 하게 셔션에서 회원정보를 관리하면서 로그인 인증 자체를 Open Auth 에게 위임해서 로그인을 처리하고  이후
+       기존의 로직과 동일하게  로그인을 실행시켜서
+       세션에 담아두고 그 후에 사용자가 client의 다른 페이지 요청시 마다 세션을 확인해서 로그인 여부를 확인하는 거군요...
+       그럼 결론은 Open Auth 는  statefull  or  stateless 하게 둘다 구현이 가능한거라고 생각하면 되는건가요?
+  답변? 오픈어스를 쓰면 사용자의 페이스북쪽 자원에 접근할 권한을 위임받는 토큰을 부여받는다고 생각하시면 되요.
+       그리고 우리 서버는 그 토큰을 jwt토큰으로 변경해서 관리하면 stateless구요.
+       그 토큰을 정보로 사용자 세션을 만들어서 쿠키던져주면 stateful 이겠네요.
+

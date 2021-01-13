@@ -36,6 +36,10 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+#카카오 로그인시 비밀번호통일(운영시에는 노출되면 안됨)
+cos:
+  key: cos1234
+
 #  http:
 #    encoding:
 #      charset : UTF-8

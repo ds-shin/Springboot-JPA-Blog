@@ -21,7 +21,7 @@ public class User {
   @GeneratedValue(strategy = GenerationType.IDENTITY) // 프로젝트에서 연결된 DB의 넘버링 전략을 따라간다.(application.yml=>use-new-id-generator-mappings: false)
   private int id; // 시퀀스, auto_increment ( mysql,oracle db에 따라 적용된다.)
 
-  @Column(nullable = false, length = 30, unique = true) // 중복허용방지
+  @Column(nullable = false, length = 100, unique = true) // 중복허용방지
   private String username; // 아이디
 
   @Column(nullable = false, length = 100) // 12345 => 추후 해쉬이용(비밀번호 암호화)
@@ -38,6 +38,8 @@ public class User {
   // enum으로 설정을 하면 DB는 인지하지 못한다.(DB는 RoleType이 없다.)
   @Enumerated(EnumType.STRING)  // 스트링이라고 알려줘야한다!!
   private RoleType role;
+
+  private String oauth; // kakao,google
 
   @CreationTimestamp  // 시간이 자동입력
   private Timestamp createDate;
