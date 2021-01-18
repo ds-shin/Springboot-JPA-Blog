@@ -31,13 +31,16 @@
     <br />
     <div class="card">
       <div class="card-header">댓글리스트</div>
-      <ul id="comment--box" class="list-group">
-        <li id="comment--1" class="list-group-item d-flex justify-content-between">
-          <div>댓글내용</div>
-          <div class="d-flex"> <!-- 한줄처리 : d-flex -->
-            <div class="font-italic">작성자 : asdfas &nbsp;</div>
-            <button class="badge">삭제</button>
-          </div>
+      <ul id="reply--box" class="list-group">
+        <c:forEach var="reply" items="${board.replys}">
+          <li id="reply--1" class="list-group-item d-flex justify-content-between">
+            <div>${reply.content}</div>
+            <div class="d-flex"> <!-- 한줄처리 : d-flex -->
+              <div class="font-italic">작성자 : ${reply.user.username} &nbsp;</div>
+              <button class="badge">삭제</button>
+<%--              <div>${reply.board}</div> 무한참조하기 때문에 다운된다. --%>
+            </div>
+          </c:forEach>
         </li>
       </ul>
     </div>

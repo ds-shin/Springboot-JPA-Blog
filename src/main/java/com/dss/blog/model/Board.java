@@ -1,5 +1,6 @@
 package com.dss.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,7 +45,9 @@ public class Board {
   // mappedBy 연관관계의 주인이 아니다.(난 FK가 아니예요) DB에 칼럼을 만들지마세요!!
   @OneToMany(mappedBy = "board", fetch = FetchType.EAGER)  // Reply의  Board 객체를 설정해준다.
   //@JoinColumn(name = "replyId") // = FK이다. join 이 필요없다. 하나인 경우에만 설정하자.
-  private List<Reply> reply;
+  @JsonIgnoreProperties({"board"}) // board,replys 와의 무한반복을 피하도록 도와줌
+  //@JsonIgnoreProperties({"board","user"}) // board,user 객체정보를 제외하고 필드정보를 리턴한다.
+  private List<Reply> replys;  // replys의 속성을 가져올때 board는 빼고 가져온다.
 
   @CreationTimestamp
   private Timestamp createDate;

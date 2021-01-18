@@ -45,6 +45,7 @@ public class BoardService {
 
   @Transactional(readOnly = true)
   public Board view(int id) {
+    //reply를 fetch = FetchType.EAGER 로 설정해서 jpa에서 알아서 갖고있다. view에서 그냥 사용하면 된다!!!
     return boardRepository.findById(id)
             .orElseThrow(()->{
               return new IllegalArgumentException("글 상세보기 실패: 아이디를 찾을 수없습니다.");
