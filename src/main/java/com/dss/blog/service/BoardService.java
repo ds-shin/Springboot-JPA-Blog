@@ -64,7 +64,7 @@ public class BoardService {
               return new IllegalArgumentException("글 찾기 실패: 아이디를 찾을 수없습니다.");
             }); // 영속화완료
     board.setTitle(reqeustBoard.getTitle());
-    board.setCount(reqeustBoard.getCount());
+    board.setContent(reqeustBoard.getContent());
     // 해당 함수로 종료시(Service가 종료될때) 트랜잭션이 종료됨. 이때 더티체킹 - 자동 업데이트가 됨. db flush
   }
 }
