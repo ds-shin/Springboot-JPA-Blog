@@ -17,6 +17,10 @@ let index = {
       this.update();
     });
 
+    $("#btn-reply-save").on("click",()=>{
+      this.replySave();
+    });
+
     /* security 적용으로 사용하지 않음.
     $("#btn-login").on("click", () => {
       this.login();
@@ -87,7 +91,6 @@ let index = {
     });
   },
 
-
   update: function(){
     let id =  $("#id").val();
     let data = {
@@ -118,7 +121,41 @@ let index = {
       alert(JSON.stringify(error));
     });
   },
-  
+
+  replySave: function(){
+    //alert("board의 save함수 호출됨");
+    let data = {
+      userid: $("#userid").val(),
+      boardid: $("#boardid").val(),
+      content: $("#reply-content").val()
+    }
+
+    console.log("data=",data);
+
+    // ajax호출시 default가 비동기호출
+    // ajax 통신을 이용해서 3개의 데이터를 json으로 변경하여 insert요청
+    $.ajax({
+      type : "POST",
+      url : `/api/board/${data.boardid}/reply`,
+      data: JSON.stringify(data), // javasciprt 오브젝트를 json 문자열로 변환하여 전달한다.
+      contentType : "application/json; charset=utf-8", // body데이터가 어떤타입인지(mime)
+      dataType:"json"
+    }).done(function(resp){
+
+      if(resp.status === 200) {
+        alert("댓글작성이 완료되었습니다.");
+        location.href=`/board/${data.boardid}`;
+      }
+      else{
+        console.log(resp);
+        alert("오류가 발생하였습니다.\n"+resp.data);
+      }
+    }).fail(function (error){
+      alert(JSON.stringify(error));
+    });
+  },
+
+
   /* security 적용으로 사용하지 않음.
   login: function(){
     //alert("user의 save함수 호출됨");

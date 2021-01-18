@@ -47,6 +47,7 @@ public class Board {
   //@JoinColumn(name = "replyId") // = FK이다. join 이 필요없다. 하나인 경우에만 설정하자.
   @JsonIgnoreProperties({"board"}) // board,replys 와의 무한반복을 피하도록 도와줌
   //@JsonIgnoreProperties({"board","user"}) // board,user 객체정보를 제외하고 필드정보를 리턴한다.
+  @OrderBy("id desc")  // 정렬 추가
   private List<Reply> replys;  // replys의 속성을 가져올때 board는 빼고 가져온다.
 
   @CreationTimestamp

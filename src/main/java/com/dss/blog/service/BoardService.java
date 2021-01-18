@@ -1,8 +1,12 @@
 package com.dss.blog.service;
 
+import com.dss.blog.dto.ReplySaveRequstDto;
 import com.dss.blog.model.Board;
+import com.dss.blog.model.Reply;
 import com.dss.blog.model.User;
 import com.dss.blog.repository.BoardRepository;
+import com.dss.blog.repository.ReplyRepository;
+import com.dss.blog.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +20,12 @@ public class BoardService {
 
   @Autowired
   private BoardRepository boardRepository;
+
+  @Autowired
+  private ReplyRepository replyRepository;
+
+  @Autowired
+  private UserRepository userRepository;
 
   //회원가입
   @Transactional
@@ -68,4 +78,39 @@ public class BoardService {
     board.setContent(reqeustBoard.getContent());
     // 해당 함수로 종료시(Service가 종료될때) 트랜잭션이 종료됨. 이때 더티체킹 - 자동 업데이트가 됨. db flush
   }
+
+  @Transactional 
+  public void reply_write(ReplySaveRequstDto replySaveRequstDto) {
+
+    User user = userRepository.findById(replySaveRequstDto.getUserid()).orElseThrow(()->{
+      return new IllegalArgumentException("댓글 쓰기 실퍠 : 사용자 id를 찾을 수 없습니다.");
+    }); // 영속성완료
+
+    Board board =boardRepository.findById(replySaveRequstDto.getBoardid()).orElseThrow(()->{
+      return new IllegalArgumentException("댓글 쓰기 실퍠 : 게시글 id를 찾을 수 없습니다.");
+    }); // 영속성완료
+
+    Reply reply = Reply.builder()
+            .user(user)
+            .board(board)
+            .content(replySaveRequstDto.getContent())
+            .build();
+//    Reply reply = new Reply();
+//    reply.update(user,board,replySaveRequstDto.getContent());
+
+    replyRepository.save(reply);
+  }
+
+/*  @Transactional
+  public void reply_write(User user, int boardid, Reply requestReply) {
+
+    Board board =boardRepository.findById(boardid).orElseThrow(()->{
+      return new IllegalArgumentException("댓글 쓰기 실퍠 : 게시글 id를 찾을 수 없습니다.");
+    }); // 영속성완료
+
+    requestReply.setUser(user);
+    requestReply.setBoard(board);
+
+    replyRepository.save(requestReply);
+  }*/
 }
